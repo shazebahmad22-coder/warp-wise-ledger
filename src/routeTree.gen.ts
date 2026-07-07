@@ -9,8 +9,50 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SubmissionsRouteImport } from './routes/submissions'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as QualitiesRouteImport } from './routes/qualities'
+import { Route as MachinesRouteImport } from './routes/machines'
+import { Route as LedgerRouteImport } from './routes/ledger'
+import { Route as JobworkersRouteImport } from './routes/jobworkers'
+import { Route as BeamsRouteImport } from './routes/beams'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SubmissionsRoute = SubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QualitiesRoute = QualitiesRouteImport.update({
+  id: '/qualities',
+  path: '/qualities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MachinesRoute = MachinesRouteImport.update({
+  id: '/machines',
+  path: '/machines',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LedgerRoute = LedgerRouteImport.update({
+  id: '/ledger',
+  path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobworkersRoute = JobworkersRouteImport.update({
+  id: '/jobworkers',
+  path: '/jobworkers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BeamsRoute = BeamsRouteImport.update({
+  id: '/beams',
+  path: '/beams',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +61,130 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/beams': typeof BeamsRoute
+  '/jobworkers': typeof JobworkersRoute
+  '/ledger': typeof LedgerRoute
+  '/machines': typeof MachinesRoute
+  '/qualities': typeof QualitiesRoute
+  '/settings': typeof SettingsRoute
+  '/submissions': typeof SubmissionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/beams': typeof BeamsRoute
+  '/jobworkers': typeof JobworkersRoute
+  '/ledger': typeof LedgerRoute
+  '/machines': typeof MachinesRoute
+  '/qualities': typeof QualitiesRoute
+  '/settings': typeof SettingsRoute
+  '/submissions': typeof SubmissionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/beams': typeof BeamsRoute
+  '/jobworkers': typeof JobworkersRoute
+  '/ledger': typeof LedgerRoute
+  '/machines': typeof MachinesRoute
+  '/qualities': typeof QualitiesRoute
+  '/settings': typeof SettingsRoute
+  '/submissions': typeof SubmissionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/beams'
+    | '/jobworkers'
+    | '/ledger'
+    | '/machines'
+    | '/qualities'
+    | '/settings'
+    | '/submissions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/beams'
+    | '/jobworkers'
+    | '/ledger'
+    | '/machines'
+    | '/qualities'
+    | '/settings'
+    | '/submissions'
+  id:
+    | '__root__'
+    | '/'
+    | '/beams'
+    | '/jobworkers'
+    | '/ledger'
+    | '/machines'
+    | '/qualities'
+    | '/settings'
+    | '/submissions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BeamsRoute: typeof BeamsRoute
+  JobworkersRoute: typeof JobworkersRoute
+  LedgerRoute: typeof LedgerRoute
+  MachinesRoute: typeof MachinesRoute
+  QualitiesRoute: typeof QualitiesRoute
+  SettingsRoute: typeof SettingsRoute
+  SubmissionsRoute: typeof SubmissionsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/submissions': {
+      id: '/submissions'
+      path: '/submissions'
+      fullPath: '/submissions'
+      preLoaderRoute: typeof SubmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qualities': {
+      id: '/qualities'
+      path: '/qualities'
+      fullPath: '/qualities'
+      preLoaderRoute: typeof QualitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/machines': {
+      id: '/machines'
+      path: '/machines'
+      fullPath: '/machines'
+      preLoaderRoute: typeof MachinesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ledger': {
+      id: '/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof LedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobworkers': {
+      id: '/jobworkers'
+      path: '/jobworkers'
+      fullPath: '/jobworkers'
+      preLoaderRoute: typeof JobworkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/beams': {
+      id: '/beams'
+      path: '/beams'
+      fullPath: '/beams'
+      preLoaderRoute: typeof BeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BeamsRoute: BeamsRoute,
+  JobworkersRoute: JobworkersRoute,
+  LedgerRoute: LedgerRoute,
+  MachinesRoute: MachinesRoute,
+  QualitiesRoute: QualitiesRoute,
+  SettingsRoute: SettingsRoute,
+  SubmissionsRoute: SubmissionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

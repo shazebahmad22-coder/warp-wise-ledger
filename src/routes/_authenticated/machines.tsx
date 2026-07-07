@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
 
-export const Route = createFileRoute("/machines")({ component: MachinesPage });
+export const Route = createFileRoute("/_authenticated/machines")({ component: MachinesPage });
 
 function MachinesPage() {
   const { jobworkers, machines, beams, addMachine, addMachinesBulk, updateMachine, deleteMachine } = useStore();

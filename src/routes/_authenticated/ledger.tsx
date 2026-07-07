@@ -11,7 +11,7 @@ import { useStore } from "@/lib/store";
 import type { LedgerType } from "@/lib/types";
 import { balanceFor, inr } from "@/lib/calc";
 
-export const Route = createFileRoute("/ledger")({ component: LedgerPage });
+export const Route = createFileRoute("/_authenticated/ledger")({ component: LedgerPage });
 
 function LedgerPage() {
   const { jobworkers, machines, submissions, qualities, beams, ledger, addLedger, deleteLedger } = useStore();

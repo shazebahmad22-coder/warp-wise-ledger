@@ -10,7 +10,7 @@ import {
 import { useStore } from "@/lib/store";
 import { balanceFor, inr } from "@/lib/calc";
 
-export const Route = createFileRoute("/jobworkers")({ component: JobworkersPage });
+export const Route = createFileRoute("/_authenticated/jobworkers")({ component: JobworkersPage });
 
 function JobworkersPage() {
   const { jobworkers, machines, submissions, qualities, beams, ledger, addJobworker, updateJobworker, deleteJobworker } = useStore();

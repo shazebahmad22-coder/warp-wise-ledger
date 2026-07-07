@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { useStore } from "@/lib/store";
 import { inr, kg } from "@/lib/calc";
 
-export const Route = createFileRoute("/submissions")({ component: SubmissionsPage });
+export const Route = createFileRoute("/_authenticated/submissions")({ component: SubmissionsPage });
 
 function SubmissionsPage() {
   const { jobworkers, machines, beams, qualities, submissions, addSubmission, deleteSubmission } = useStore();

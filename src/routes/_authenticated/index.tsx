@@ -4,7 +4,7 @@ import { useStore } from "@/lib/store";
 import { balanceFor, inr, kg } from "@/lib/calc";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/")({ component: Dashboard });
+export const Route = createFileRoute("/_authenticated/")({ component: Dashboard });
 
 function Dashboard() {
   const {

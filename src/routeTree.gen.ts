@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSubmissionsRouteImport } from './routes/_authenticated/submissions'
@@ -19,6 +20,11 @@ import { Route as AuthenticatedLedgerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedJobworkersRouteImport } from './routes/_authenticated/jobworkers'
 import { Route as AuthenticatedBeamsRouteImport } from './routes/_authenticated/beams'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -67,6 +73,7 @@ const AuthenticatedBeamsRoute = AuthenticatedBeamsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/auth': typeof AuthRoute
   '/beams': typeof AuthenticatedBeamsRoute
   '/jobworkers': typeof AuthenticatedJobworkersRoute
   '/ledger': typeof AuthenticatedLedgerRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/submissions': typeof AuthenticatedSubmissionsRoute
 }
 export interface FileRoutesByTo {
+  '/auth': typeof AuthRoute
   '/beams': typeof AuthenticatedBeamsRoute
   '/jobworkers': typeof AuthenticatedJobworkersRoute
   '/ledger': typeof AuthenticatedLedgerRoute
@@ -88,6 +96,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/_authenticated/beams': typeof AuthenticatedBeamsRoute
   '/_authenticated/jobworkers': typeof AuthenticatedJobworkersRoute
   '/_authenticated/ledger': typeof AuthenticatedLedgerRoute
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/beams'
     | '/jobworkers'
     | '/ledger'
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/submissions'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/auth'
     | '/beams'
     | '/jobworkers'
     | '/ledger'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/auth'
     | '/_authenticated/beams'
     | '/_authenticated/jobworkers'
     | '/_authenticated/ledger'
@@ -133,10 +145,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -230,6 +250,7 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

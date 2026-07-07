@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedSubmissionsRouteImport } from './routes/_authenticated/submissions'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -18,49 +19,54 @@ import { Route as AuthenticatedLedgerRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedJobworkersRouteImport } from './routes/_authenticated/jobworkers'
 import { Route as AuthenticatedBeamsRouteImport } from './routes/_authenticated/beams'
 
-const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
-  id: '/_authenticated/',
-  path: '/',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSubmissionsRoute =
   AuthenticatedSubmissionsRouteImport.update({
-    id: '/_authenticated/submissions',
+    id: '/submissions',
     path: '/submissions',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/_authenticated/settings',
+  id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedQualitiesRoute = AuthenticatedQualitiesRouteImport.update({
-  id: '/_authenticated/qualities',
+  id: '/qualities',
   path: '/qualities',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMachinesRoute = AuthenticatedMachinesRouteImport.update({
-  id: '/_authenticated/machines',
+  id: '/machines',
   path: '/machines',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLedgerRoute = AuthenticatedLedgerRouteImport.update({
-  id: '/_authenticated/ledger',
+  id: '/ledger',
   path: '/ledger',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedJobworkersRoute = AuthenticatedJobworkersRouteImport.update({
-  id: '/_authenticated/jobworkers',
+  id: '/jobworkers',
   path: '/jobworkers',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedBeamsRoute = AuthenticatedBeamsRouteImport.update({
-  id: '/_authenticated/beams',
+  id: '/beams',
   path: '/beams',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof AuthenticatedIndexRoute
   '/beams': typeof AuthenticatedBeamsRoute
   '/jobworkers': typeof AuthenticatedJobworkersRoute
   '/ledger': typeof AuthenticatedLedgerRoute
@@ -68,7 +74,6 @@ export interface FileRoutesByFullPath {
   '/qualities': typeof AuthenticatedQualitiesRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/submissions': typeof AuthenticatedSubmissionsRoute
-  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
   '/beams': typeof AuthenticatedBeamsRoute
@@ -82,6 +87,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/beams': typeof AuthenticatedBeamsRoute
   '/_authenticated/jobworkers': typeof AuthenticatedJobworkersRoute
   '/_authenticated/ledger': typeof AuthenticatedLedgerRoute
@@ -94,6 +100,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/beams'
     | '/jobworkers'
     | '/ledger'
@@ -101,7 +108,6 @@ export interface FileRouteTypes {
     | '/qualities'
     | '/settings'
     | '/submissions'
-    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/beams'
@@ -114,6 +120,7 @@ export interface FileRouteTypes {
     | '/'
   id:
     | '__root__'
+    | '/_authenticated'
     | '/_authenticated/beams'
     | '/_authenticated/jobworkers'
     | '/_authenticated/ledger'
@@ -125,6 +132,78 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/submissions': {
+      id: '/_authenticated/submissions'
+      path: '/submissions'
+      fullPath: '/submissions'
+      preLoaderRoute: typeof AuthenticatedSubmissionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/qualities': {
+      id: '/_authenticated/qualities'
+      path: '/qualities'
+      fullPath: '/qualities'
+      preLoaderRoute: typeof AuthenticatedQualitiesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/machines': {
+      id: '/_authenticated/machines'
+      path: '/machines'
+      fullPath: '/machines'
+      preLoaderRoute: typeof AuthenticatedMachinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/ledger': {
+      id: '/_authenticated/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof AuthenticatedLedgerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/jobworkers': {
+      id: '/_authenticated/jobworkers'
+      path: '/jobworkers'
+      fullPath: '/jobworkers'
+      preLoaderRoute: typeof AuthenticatedJobworkersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/beams': {
+      id: '/_authenticated/beams'
+      path: '/beams'
+      fullPath: '/beams'
+      preLoaderRoute: typeof AuthenticatedBeamsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+  }
+}
+
+interface AuthenticatedRouteRouteChildren {
   AuthenticatedBeamsRoute: typeof AuthenticatedBeamsRoute
   AuthenticatedJobworkersRoute: typeof AuthenticatedJobworkersRoute
   AuthenticatedLedgerRoute: typeof AuthenticatedLedgerRoute
@@ -135,68 +214,7 @@ export interface RootRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/_authenticated/': {
-      id: '/_authenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/submissions': {
-      id: '/_authenticated/submissions'
-      path: '/submissions'
-      fullPath: '/submissions'
-      preLoaderRoute: typeof AuthenticatedSubmissionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/qualities': {
-      id: '/_authenticated/qualities'
-      path: '/qualities'
-      fullPath: '/qualities'
-      preLoaderRoute: typeof AuthenticatedQualitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/machines': {
-      id: '/_authenticated/machines'
-      path: '/machines'
-      fullPath: '/machines'
-      preLoaderRoute: typeof AuthenticatedMachinesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/ledger': {
-      id: '/_authenticated/ledger'
-      path: '/ledger'
-      fullPath: '/ledger'
-      preLoaderRoute: typeof AuthenticatedLedgerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/jobworkers': {
-      id: '/_authenticated/jobworkers'
-      path: '/jobworkers'
-      fullPath: '/jobworkers'
-      preLoaderRoute: typeof AuthenticatedJobworkersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/beams': {
-      id: '/_authenticated/beams'
-      path: '/beams'
-      fullPath: '/beams'
-      preLoaderRoute: typeof AuthenticatedBeamsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
-}
-
-const rootRouteChildren: RootRouteChildren = {
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBeamsRoute: AuthenticatedBeamsRoute,
   AuthenticatedJobworkersRoute: AuthenticatedJobworkersRoute,
   AuthenticatedLedgerRoute: AuthenticatedLedgerRoute,
@@ -205,6 +223,13 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedSubmissionsRoute: AuthenticatedSubmissionsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

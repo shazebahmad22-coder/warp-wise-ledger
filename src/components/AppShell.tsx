@@ -17,6 +17,8 @@ const nav = [
 export function AppShell({ title, actions, children }: { title: string; actions?: ReactNode; children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const factoryName = useStore((s) => s.settings.factoryName);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">

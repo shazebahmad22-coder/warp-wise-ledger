@@ -14,7 +14,255 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      app_settings: {
+        Row: {
+          default_beam_prep_charge: number
+          factory_name: string
+          id: number
+        }
+        Insert: {
+          default_beam_prep_charge?: number
+          factory_name?: string
+          id?: number
+        }
+        Update: {
+          default_beam_prep_charge?: number
+          factory_name?: string
+          id?: number
+        }
+        Relationships: []
+      }
+      beams: {
+        Row: {
+          assigned_date: string
+          beam_number: string
+          closed: boolean
+          closed_date: string | null
+          id: string
+          jobworker_id: string
+          machine_id: string
+          notes: string | null
+          prep_charge: number
+          warp_weight_kg: number
+        }
+        Insert: {
+          assigned_date: string
+          beam_number: string
+          closed?: boolean
+          closed_date?: string | null
+          id: string
+          jobworker_id: string
+          machine_id: string
+          notes?: string | null
+          prep_charge?: number
+          warp_weight_kg?: number
+        }
+        Update: {
+          assigned_date?: string
+          beam_number?: string
+          closed?: boolean
+          closed_date?: string | null
+          id?: string
+          jobworker_id?: string
+          machine_id?: string
+          notes?: string | null
+          prep_charge?: number
+          warp_weight_kg?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "beams_jobworker_id_fkey"
+            columns: ["jobworker_id"]
+            isOneToOne: false
+            referencedRelation: "jobworkers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "beams_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      jobworkers: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      ledger: {
+        Row: {
+          amount: number
+          date: string
+          id: string
+          jobworker_id: string
+          note: string | null
+          type: string
+        }
+        Insert: {
+          amount?: number
+          date: string
+          id: string
+          jobworker_id: string
+          note?: string | null
+          type: string
+        }
+        Update: {
+          amount?: number
+          date?: string
+          id?: string
+          jobworker_id?: string
+          note?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_jobworker_id_fkey"
+            columns: ["jobworker_id"]
+            isOneToOne: false
+            referencedRelation: "jobworkers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machines: {
+        Row: {
+          created_at: string
+          id: string
+          jobworker_id: string
+          label: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          jobworker_id: string
+          label: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jobworker_id?: string
+          label?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machines_jobworker_id_fkey"
+            columns: ["jobworker_id"]
+            isOneToOne: false
+            referencedRelation: "jobworkers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qualities: {
+        Row: {
+          deduction: number
+          id: string
+          name: string
+          notes: string | null
+          rate_per_piece: number
+        }
+        Insert: {
+          deduction?: number
+          id: string
+          name: string
+          notes?: string | null
+          rate_per_piece?: number
+        }
+        Update: {
+          deduction?: number
+          id?: string
+          name?: string
+          notes?: string | null
+          rate_per_piece?: number
+        }
+        Relationships: []
+      }
+      submissions: {
+        Row: {
+          beam_id: string
+          created_at: string
+          id: string
+          jobworker_id: string
+          machine_id: string
+          pieces: number
+          quality_id: string
+          week_ending: string
+          weight_kg: number
+        }
+        Insert: {
+          beam_id: string
+          created_at?: string
+          id: string
+          jobworker_id: string
+          machine_id: string
+          pieces?: number
+          quality_id: string
+          week_ending: string
+          weight_kg?: number
+        }
+        Update: {
+          beam_id?: string
+          created_at?: string
+          id?: string
+          jobworker_id?: string
+          machine_id?: string
+          pieces?: number
+          quality_id?: string
+          week_ending?: string
+          weight_kg?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "submissions_beam_id_fkey"
+            columns: ["beam_id"]
+            isOneToOne: false
+            referencedRelation: "beams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_jobworker_id_fkey"
+            columns: ["jobworker_id"]
+            isOneToOne: false
+            referencedRelation: "jobworkers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_quality_id_fkey"
+            columns: ["quality_id"]
+            isOneToOne: false
+            referencedRelation: "qualities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

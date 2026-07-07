@@ -78,7 +78,7 @@ export function AppShell({ title, actions, children }: { title: string; actions?
             <div className="flex flex-wrap items-center gap-2">{actions}</div>
           </div>
         </header>
-        <main className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">{children}</main>
+        <main className="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">{mounted ? children : null}</main>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { useStore } from "@/lib/store";
 import { inr } from "@/lib/calc";
 
-export const Route = createFileRoute("/qualities")({ component: QualitiesPage });
+export const Route = createFileRoute("/_authenticated/qualities")({ component: QualitiesPage });
 
 function QualitiesPage() {
   const { qualities, addQuality, updateQuality, deleteQuality } = useStore();

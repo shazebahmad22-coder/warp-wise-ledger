@@ -9,91 +9,91 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SubmissionsRouteImport } from './routes/submissions'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as QualitiesRouteImport } from './routes/qualities'
-import { Route as MachinesRouteImport } from './routes/machines'
-import { Route as LedgerRouteImport } from './routes/ledger'
-import { Route as JobworkersRouteImport } from './routes/jobworkers'
-import { Route as BeamsRouteImport } from './routes/beams'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedSubmissionsRouteImport } from './routes/_authenticated/submissions'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedQualitiesRouteImport } from './routes/_authenticated/qualities'
+import { Route as AuthenticatedMachinesRouteImport } from './routes/_authenticated/machines'
+import { Route as AuthenticatedLedgerRouteImport } from './routes/_authenticated/ledger'
+import { Route as AuthenticatedJobworkersRouteImport } from './routes/_authenticated/jobworkers'
+import { Route as AuthenticatedBeamsRouteImport } from './routes/_authenticated/beams'
 
-const SubmissionsRoute = SubmissionsRouteImport.update({
-  id: '/submissions',
-  path: '/submissions',
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/_authenticated/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
+const AuthenticatedSubmissionsRoute =
+  AuthenticatedSubmissionsRouteImport.update({
+    id: '/_authenticated/submissions',
+    path: '/submissions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/_authenticated/settings',
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const QualitiesRoute = QualitiesRouteImport.update({
-  id: '/qualities',
+const AuthenticatedQualitiesRoute = AuthenticatedQualitiesRouteImport.update({
+  id: '/_authenticated/qualities',
   path: '/qualities',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MachinesRoute = MachinesRouteImport.update({
-  id: '/machines',
+const AuthenticatedMachinesRoute = AuthenticatedMachinesRouteImport.update({
+  id: '/_authenticated/machines',
   path: '/machines',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LedgerRoute = LedgerRouteImport.update({
-  id: '/ledger',
+const AuthenticatedLedgerRoute = AuthenticatedLedgerRouteImport.update({
+  id: '/_authenticated/ledger',
   path: '/ledger',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JobworkersRoute = JobworkersRouteImport.update({
-  id: '/jobworkers',
+const AuthenticatedJobworkersRoute = AuthenticatedJobworkersRouteImport.update({
+  id: '/_authenticated/jobworkers',
   path: '/jobworkers',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BeamsRoute = BeamsRouteImport.update({
-  id: '/beams',
+const AuthenticatedBeamsRoute = AuthenticatedBeamsRouteImport.update({
+  id: '/_authenticated/beams',
   path: '/beams',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/beams': typeof BeamsRoute
-  '/jobworkers': typeof JobworkersRoute
-  '/ledger': typeof LedgerRoute
-  '/machines': typeof MachinesRoute
-  '/qualities': typeof QualitiesRoute
-  '/settings': typeof SettingsRoute
-  '/submissions': typeof SubmissionsRoute
+  '/beams': typeof AuthenticatedBeamsRoute
+  '/jobworkers': typeof AuthenticatedJobworkersRoute
+  '/ledger': typeof AuthenticatedLedgerRoute
+  '/machines': typeof AuthenticatedMachinesRoute
+  '/qualities': typeof AuthenticatedQualitiesRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/submissions': typeof AuthenticatedSubmissionsRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/beams': typeof BeamsRoute
-  '/jobworkers': typeof JobworkersRoute
-  '/ledger': typeof LedgerRoute
-  '/machines': typeof MachinesRoute
-  '/qualities': typeof QualitiesRoute
-  '/settings': typeof SettingsRoute
-  '/submissions': typeof SubmissionsRoute
+  '/beams': typeof AuthenticatedBeamsRoute
+  '/jobworkers': typeof AuthenticatedJobworkersRoute
+  '/ledger': typeof AuthenticatedLedgerRoute
+  '/machines': typeof AuthenticatedMachinesRoute
+  '/qualities': typeof AuthenticatedQualitiesRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/submissions': typeof AuthenticatedSubmissionsRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/beams': typeof BeamsRoute
-  '/jobworkers': typeof JobworkersRoute
-  '/ledger': typeof LedgerRoute
-  '/machines': typeof MachinesRoute
-  '/qualities': typeof QualitiesRoute
-  '/settings': typeof SettingsRoute
-  '/submissions': typeof SubmissionsRoute
+  '/_authenticated/beams': typeof AuthenticatedBeamsRoute
+  '/_authenticated/jobworkers': typeof AuthenticatedJobworkersRoute
+  '/_authenticated/ledger': typeof AuthenticatedLedgerRoute
+  '/_authenticated/machines': typeof AuthenticatedMachinesRoute
+  '/_authenticated/qualities': typeof AuthenticatedQualitiesRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/submissions': typeof AuthenticatedSubmissionsRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/beams'
     | '/jobworkers'
     | '/ledger'
@@ -101,9 +101,9 @@ export interface FileRouteTypes {
     | '/qualities'
     | '/settings'
     | '/submissions'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/beams'
     | '/jobworkers'
     | '/ledger'
@@ -111,99 +111,100 @@ export interface FileRouteTypes {
     | '/qualities'
     | '/settings'
     | '/submissions'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/beams'
-    | '/jobworkers'
-    | '/ledger'
-    | '/machines'
-    | '/qualities'
-    | '/settings'
-    | '/submissions'
+    | '/_authenticated/beams'
+    | '/_authenticated/jobworkers'
+    | '/_authenticated/ledger'
+    | '/_authenticated/machines'
+    | '/_authenticated/qualities'
+    | '/_authenticated/settings'
+    | '/_authenticated/submissions'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  BeamsRoute: typeof BeamsRoute
-  JobworkersRoute: typeof JobworkersRoute
-  LedgerRoute: typeof LedgerRoute
-  MachinesRoute: typeof MachinesRoute
-  QualitiesRoute: typeof QualitiesRoute
-  SettingsRoute: typeof SettingsRoute
-  SubmissionsRoute: typeof SubmissionsRoute
+  AuthenticatedBeamsRoute: typeof AuthenticatedBeamsRoute
+  AuthenticatedJobworkersRoute: typeof AuthenticatedJobworkersRoute
+  AuthenticatedLedgerRoute: typeof AuthenticatedLedgerRoute
+  AuthenticatedMachinesRoute: typeof AuthenticatedMachinesRoute
+  AuthenticatedQualitiesRoute: typeof AuthenticatedQualitiesRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedSubmissionsRoute: typeof AuthenticatedSubmissionsRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/submissions': {
-      id: '/submissions'
-      path: '/submissions'
-      fullPath: '/submissions'
-      preLoaderRoute: typeof SubmissionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/qualities': {
-      id: '/qualities'
-      path: '/qualities'
-      fullPath: '/qualities'
-      preLoaderRoute: typeof QualitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/machines': {
-      id: '/machines'
-      path: '/machines'
-      fullPath: '/machines'
-      preLoaderRoute: typeof MachinesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ledger': {
-      id: '/ledger'
-      path: '/ledger'
-      fullPath: '/ledger'
-      preLoaderRoute: typeof LedgerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/jobworkers': {
-      id: '/jobworkers'
-      path: '/jobworkers'
-      fullPath: '/jobworkers'
-      preLoaderRoute: typeof JobworkersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/beams': {
-      id: '/beams'
-      path: '/beams'
-      fullPath: '/beams'
-      preLoaderRoute: typeof BeamsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/submissions': {
+      id: '/_authenticated/submissions'
+      path: '/submissions'
+      fullPath: '/submissions'
+      preLoaderRoute: typeof AuthenticatedSubmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/qualities': {
+      id: '/_authenticated/qualities'
+      path: '/qualities'
+      fullPath: '/qualities'
+      preLoaderRoute: typeof AuthenticatedQualitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/machines': {
+      id: '/_authenticated/machines'
+      path: '/machines'
+      fullPath: '/machines'
+      preLoaderRoute: typeof AuthenticatedMachinesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/ledger': {
+      id: '/_authenticated/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof AuthenticatedLedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/jobworkers': {
+      id: '/_authenticated/jobworkers'
+      path: '/jobworkers'
+      fullPath: '/jobworkers'
+      preLoaderRoute: typeof AuthenticatedJobworkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/beams': {
+      id: '/_authenticated/beams'
+      path: '/beams'
+      fullPath: '/beams'
+      preLoaderRoute: typeof AuthenticatedBeamsRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  BeamsRoute: BeamsRoute,
-  JobworkersRoute: JobworkersRoute,
-  LedgerRoute: LedgerRoute,
-  MachinesRoute: MachinesRoute,
-  QualitiesRoute: QualitiesRoute,
-  SettingsRoute: SettingsRoute,
-  SubmissionsRoute: SubmissionsRoute,
+  AuthenticatedBeamsRoute: AuthenticatedBeamsRoute,
+  AuthenticatedJobworkersRoute: AuthenticatedJobworkersRoute,
+  AuthenticatedLedgerRoute: AuthenticatedLedgerRoute,
+  AuthenticatedMachinesRoute: AuthenticatedMachinesRoute,
+  AuthenticatedQualitiesRoute: AuthenticatedQualitiesRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedSubmissionsRoute: AuthenticatedSubmissionsRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

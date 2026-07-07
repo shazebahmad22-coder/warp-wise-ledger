@@ -11,7 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/lib/store";
 import { inr, kg, statsForBeam } from "@/lib/calc";
 
-export const Route = createFileRoute("/beams")({ component: BeamsPage });
+export const Route = createFileRoute("/_authenticated/beams")({ component: BeamsPage });
 
 function BeamsPage() {
   const { jobworkers, machines, beams, submissions, settings, addBeam, closeBeam, reopenBeam, deleteBeam } = useStore();

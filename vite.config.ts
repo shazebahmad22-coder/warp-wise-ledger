@@ -15,84 +15,63 @@ export default defineConfig({
   vite: {
     build: {
       // Increase chunk size warning limit (in kB)
-      // Chunks larger than this will trigger a warning
       chunkSizeWarningLimit: 1000,
       
-      // Optimize chunking for better performance
       rollupOptions: {
         output: {
-          // Manual chunk configuration to split vendor libraries
-          manualChunks: {
+          // Rolldown requires manualChunks to be a function, not an object
+          manualChunks: (id) => {
             // UI Component libraries
-            'radix-ui': [
-              '@radix-ui/react-accordion',
-              '@radix-ui/react-alert-dialog',
-              '@radix-ui/react-aspect-ratio',
-              '@radix-ui/react-avatar',
-              '@radix-ui/react-checkbox',
-              '@radix-ui/react-collapsible',
-              '@radix-ui/react-context-menu',
-              '@radix-ui/react-dialog',
-              '@radix-ui/react-dropdown-menu',
-              '@radix-ui/react-hover-card',
-              '@radix-ui/react-label',
-              '@radix-ui/react-menubar',
-              '@radix-ui/react-navigation-menu',
-              '@radix-ui/react-popover',
-              '@radix-ui/react-progress',
-              '@radix-ui/react-radio-group',
-              '@radix-ui/react-scroll-area',
-              '@radix-ui/react-select',
-              '@radix-ui/react-separator',
-              '@radix-ui/react-slider',
-              '@radix-ui/react-slot',
-              '@radix-ui/react-switch',
-              '@radix-ui/react-tabs',
-              '@radix-ui/react-toggle',
-              '@radix-ui/react-toggle-group',
-              '@radix-ui/react-tooltip',
-            ],
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui';
+            }
+            
             // Data and state management
-            'data-libs': [
-              '@tanstack/react-query',
-              'zustand',
-              'zod',
-            ],
+            if (id.includes('@tanstack/react-query') || id.includes('zustand') || id.includes('zod')) {
+              return 'data-libs';
+            }
+            
             // Form handling
-            'forms': [
-              'react-hook-form',
-              '@hookform/resolvers',
-            ],
+            if (id.includes('react-hook-form') || id.includes('@hookform/resolvers')) {
+              return 'forms';
+            }
+            
             // Router and navigation
-            'router': [
-              '@tanstack/react-router',
-              '@tanstack/react-start',
-            ],
+            if (id.includes('@tanstack/react-router') || id.includes('@tanstack/react-start')) {
+              return 'router';
+            }
+            
             // Charts and visualization
-            'charts': [
-              'recharts',
-            ],
+            if (id.includes('recharts')) {
+              return 'charts';
+            }
+            
             // Supabase client
-            'supabase': [
-              '@supabase/supabase-js',
-            ],
+            if (id.includes('@supabase/supabase-js')) {
+              return 'supabase';
+            }
+            
             // Utility and UI helpers
-            'utils': [
-              'clsx',
-              'tailwind-merge',
-              'cmdk',
-              'class-variance-authority',
-              'lucide-react',
-              'sonner',
-            ],
+            if (id.includes('clsx') || 
+                id.includes('tailwind-merge') || 
+                id.includes('cmdk') || 
+                id.includes('class-variance-authority') || 
+                id.includes('lucide-react') || 
+                id.includes('sonner')) {
+              return 'utils';
+            }
+            
             // Date handling
-            'dates': [
-              'date-fns',
-              'react-day-picker',
-            ],
+            if (id.includes('date-fns') || id.includes('react-day-picker')) {
+              return 'dates';
+            }
           },
         },
       },
+    },
+    resolve: {
+      // Use Vite's native tsconfig paths resolution instead of plugin
+      tsconfigPaths: true,
     },
   },
 });

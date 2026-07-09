@@ -17,5 +17,9 @@ export default defineConfig({
       // Increase chunk size warning limit (in kB) to suppress chunk size warnings
       chunkSizeWarningLimit: 1000,
     },
+    resolve: {
+      // Use native tsconfig paths resolution instead of vite-tsconfig-paths plugin
+      tsconfigPaths: true,
+    },
   },
 });

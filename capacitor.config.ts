@@ -6,6 +6,28 @@ const config: CapacitorConfig = {
   // TanStack Start / Nitro emits the built static assets to .output/public.
   // Capacitor copies from this folder into the Android project on `cap sync`.
   webDir: ".output/public",
+  
+  server: {
+    androidScheme: "https",
+    ioScheme: "https",
+  },
+
+  android: {
+    allowMixedContent: true,
+    buildOptions: {
+      gradleArg: "-x lint",
+    },
+  },
+
+  ios: {
+    limitsNavigationsToAppBoundDomains: true,
+  },
+
+  plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
+  },
 };
 
 export default config;

@@ -127,6 +127,17 @@ function SubmissionsPage() {
         </>
       }
     >
+      {!canRecord && (
+        <div className="mb-4 rounded-lg border border-warning/40 bg-warning/10 p-4 text-sm">
+          <div className="font-medium">Before recording a submission, set up:</div>
+          <ul className="mt-2 space-y-1 text-muted-foreground">
+            {jobworkers.length === 0 && <li>• Add a <Link to="/jobworkers" className="underline text-foreground">jobworker</Link></li>}
+            {machines.length === 0 && <li>• Add <Link to="/machines" className="underline text-foreground">machines</Link> for the jobworker</li>}
+            {qualities.length === 0 && <li>• Add fabric <Link to="/qualities" className="underline text-foreground">qualities</Link> with piece rates</li>}
+            {!beams.some((b) => !b.closed) && <li>• Assign an open <Link to="/beams" className="underline text-foreground">beam</Link> to a machine</li>}
+          </ul>
+        </div>
+      )}
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-border bg-card p-4"><div className="text-[10px] uppercase tracking-wider text-muted-foreground">This week</div><div className="mt-1 font-display text-xl font-semibold">{currentWeek.pieces} pieces</div><div className="text-xs text-muted-foreground">{kg(currentWeek.weight)} · {currentWeek.count} entries</div></div>
         <div className="rounded-lg border border-border bg-card p-4"><div className="text-[10px] uppercase tracking-wider text-muted-foreground">All-time pieces</div><div className="mt-1 font-display text-xl font-semibold">{submissions.reduce((a, s) => a + s.pieces, 0).toLocaleString("en-IN")}</div></div>

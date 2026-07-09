@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { format, startOfWeek, endOfWeek } from "date-fns";
 import { AppShell, EmptyState } from "@/components/AppShell";

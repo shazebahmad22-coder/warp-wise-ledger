@@ -83,13 +83,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Track jobworkers, machines, warp beams, weekly fabric submissions and ledger balances for a weaving factory.",
       },
-      { property: "og:title", content: "Loom Ledger" },
+      { property: "og:title", content: "Loom Ledger — Factory jobwork, beam & ledger tracking" },
       {
         property: "og:description",
-        content: "Automated jobwork, beam and ledger tracking for weaving factories.",
+        content: "Track jobworkers, machines, warp beams, weekly fabric submissions and ledger balances for a weaving factory.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Loom Ledger — Factory jobwork, beam & ledger tracking" },
+      { name: "twitter:description", content: "Track jobworkers, machines, warp beams, weekly fabric submissions and ledger balances for a weaving factory." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8dee7996-ff69-4831-a3ab-f6b25824e3df/id-preview-50760ac1--c3a7b290-be8d-48b0-8cea-52bcbf78bc12.lovable.app-1783585881442.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8dee7996-ff69-4831-a3ab-f6b25824e3df/id-preview-50760ac1--c3a7b290-be8d-48b0-8cea-52bcbf78bc12.lovable.app-1783585881442.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

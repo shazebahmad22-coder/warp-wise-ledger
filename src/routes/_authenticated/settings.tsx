@@ -1,44 +1,29 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useStore } from "@/lib/store";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/settings")({ component: SettingsPage });
 
 function SettingsPage() {
-  const router = useRouter();
-  const { settings, updateSettings, resetAll, seedDemo, importFromLocal, jobworkers, machines, beams, submissions, ledger, qualities } = useStore();
+  const { settings, updateSettings, resetAll, seedDemo, importJson, jobworkers, machines, beams, submissions, ledger, qualities } = useStore();
   const [factoryName, setFactoryName] = useState(settings.factoryName);
   const [prep, setPrep] = useState(String(settings.defaultBeamPrepCharge));
-  const [importState, setImportState] = useState<{ loading: boolean; msg?: string; err?: string }>({ loading: false });
+  const [importMsg, setImportMsg] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function save() {
     updateSettings({ factoryName: factoryName.trim() || "My Factory", defaultBeamPrepCharge: parseFloat(prep) || 0 });
   }
 
-  async function signOut() {
-    await supabase.auth.signOut();
-    router.navigate({ to: "/auth" });
-  }
-
-  async function runImport() {
-    if (!confirm("Import factory data saved in THIS browser into the cloud? Existing rows with the same IDs will be overwritten.")) return;
-    setImportState({ loading: true });
-    const res = await importFromLocal();
-    if (res.ok) {
-      const c = res.counts;
-      setImportState({ loading: false, msg: `Imported: ${c.jobworkers} jobworkers, ${c.machines} machines, ${c.qualities} qualities, ${c.beams} beams, ${c.submissions} submissions, ${c.ledger} ledger entries.` });
-    } else {
-      setImportState({ loading: false, err: res.error });
-    }
-  }
-
   function exportJson() {
-    const blob = new Blob([JSON.stringify({ jobworkers, machines, beams, submissions, ledger, qualities, settings }, null, 2)], { type: "application/json" });
+    const blob = new Blob(
+      [JSON.stringify({ jobworkers, machines, beams, submissions, ledger, qualities, settings }, null, 2)],
+      { type: "application/json" }
+    );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -47,8 +32,27 @@ function SettingsPage() {
     URL.revokeObjectURL(url);
   }
 
+  async function onImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!confirm("Import this backup? Existing data on this device will be replaced.")) {
+      e.target.value = "";
+      return;
+    }
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const res = importJson(parsed);
+      setImportMsg(res.ok ? "Import complete." : `Import failed: ${res.error}`);
+    } catch (err: any) {
+      setImportMsg(`Import failed: ${err?.message || String(err)}`);
+    } finally {
+      e.target.value = "";
+    }
+  }
+
   return (
-    <AppShell title="Settings" actions={<Button variant="outline" onClick={signOut}>Sign out</Button>}>
+    <AppShell title="Settings">
       <div className="max-w-2xl space-y-6">
         <section className="rounded-lg border border-border bg-card p-6">
           <h2 className="font-display text-lg font-semibold">Factory</h2>
@@ -60,33 +64,24 @@ function SettingsPage() {
         </section>
 
         <section className="rounded-lg border border-border bg-card p-6">
-          <h2 className="font-display text-lg font-semibold">Import from this browser</h2>
+          <h2 className="font-display text-lg font-semibold">Backup & restore</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            If you used Loom Ledger on this device before switching to logins, you can push that local data into the cloud once. It will then be shared with all staff logins.
+            All data is stored on this device only. Export regularly to keep a copy safe.
           </p>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <Button variant="outline" onClick={runImport} disabled={importState.loading}>
-              {importState.loading ? "Importing…" : "Import local data"}
-            </Button>
-            {importState.msg && <span className="text-sm text-success">{importState.msg}</span>}
-            {importState.err && <span className="text-sm text-destructive">{importState.err}</span>}
-          </div>
-        </section>
-
-        <section className="rounded-lg border border-border bg-card p-6">
-          <h2 className="font-display text-lg font-semibold">Backup</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Download a JSON snapshot of the current cloud data.</p>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <Button variant="outline" onClick={exportJson}>Export JSON</Button>
+            <Button variant="outline" onClick={() => fileRef.current?.click()}>Import JSON</Button>
+            <input ref={fileRef} type="file" accept="application/json" className="hidden" onChange={onImportFile} />
+            {importMsg && <span className="text-sm text-muted-foreground">{importMsg}</span>}
           </div>
         </section>
 
         <section className="rounded-lg border border-border bg-card p-6">
           <h2 className="font-display text-lg font-semibold">Danger zone</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Load sample data to explore the app, or wipe everything and start fresh. Actions affect all logins.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Load sample data to explore the app, or wipe everything and start fresh.</p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Button variant="outline" onClick={() => seedDemo()}>Load demo data</Button>
-            <Button variant="destructive" onClick={() => { if (confirm("Delete ALL cloud data? This cannot be undone.")) resetAll(); }}>Reset everything</Button>
+            <Button variant="destructive" onClick={() => { if (confirm("Delete ALL data on this device? This cannot be undone.")) resetAll(); }}>Reset everything</Button>
           </div>
         </section>
       </div>

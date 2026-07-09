@@ -20,6 +20,8 @@ const rootRoute = new RootRoute({
   component: Root,
 });
 
+export const Route = rootRoute;
+
 export const routeTree = rootRoute.addChildren([]);
 
 export const router = new Router({ routeTree });

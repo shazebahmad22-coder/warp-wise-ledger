@@ -1,3 +1,3 @@
-import { createRequestHandler } from '@tanstack/start';
+import { createRequestHandler } from '@tanstack/react-start';
 
 export default createRequestHandler();

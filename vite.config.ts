@@ -22,4 +22,12 @@ export default defineConfig({
       tsconfigPaths: true,
     },
   },
+  nitro: {
+    rollupConfig: {
+      output: {
+        // Disable inlineDynamicImports to avoid conflict with codeSplitting
+        inlineDynamicImports: false,
+      },
+    },
+  },
 });
